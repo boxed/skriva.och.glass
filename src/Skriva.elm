@@ -1,8 +1,9 @@
 module Skriva exposing (..)
 
 import Browser
-import Html exposing (Attribute, Html, div, h1, text)
-import Html.Attributes exposing (class)
+import Html exposing (Attribute, Html, div, h1, input, text)
+import Html.Attributes exposing (class, style, type_, value)
+import Html.Events exposing (onInput)
 
 
 main =
@@ -16,7 +17,7 @@ main =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( {}
+    ( { size = 20 }
     , Cmd.none
     )
 
@@ -26,7 +27,8 @@ init _ =
 
 
 type alias Model =
-    {}
+    { size : Int
+    }
 
 
 
@@ -34,14 +36,19 @@ type alias Model =
 
 
 type Msg
-    = NoOp
+    = SetSize (Maybe Int)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
-            ( model, Cmd.none )
+        SetSize size ->
+            case size of
+                Just s ->
+                    ( { model | size = s }, Cmd.none )
+
+                Nothing ->
+                    ( model, Cmd.none )
 
 
 
@@ -49,26 +56,38 @@ update msg model =
 
 
 view : Model -> Html Msg
-view _ =
+view model =
     div []
         [ h1 [ class "no-print" ] [ text "Skriva" ]
-        , div [] (List.map viewPage (List.range 0 10))
+        , div [ class "no-print" ]
+            [ div [] [ input [ style "width" "400px", type_ "range", min_ "5", max_ "20", value (String.fromInt model.size), onInput (\x -> SetSize (String.toInt x)), class "slider" ] [], text (String.fromInt model.size) ]
+            ]
+        , div [] (List.map (viewLine model) (List.range 0 100))
         ]
 
 
-linesPerPage =
-    5
-
-
-viewPage : Int -> Html Msg
-viewPage _ =
-    div [ class "page-break" ] (List.map viewLine (List.range 0 (linesPerPage - 1)))
-
-
-viewLine : Int -> Html Msg
-viewLine _ =
-    div [ class "line" ]
-        [ div [ class "top" ] []
-        , div [ class "base" ] []
-        , div [ class "bottom" ] []
+viewLine : Model -> Int -> Html Msg
+viewLine model _ =
+    let
+        height =
+            style "height" (String.fromFloat (toFloat model.size / 10) ++ "rem")
+    in
+    div [ class "line", style "margin-bottom" (String.fromFloat (toFloat model.size * 3 / 10) ++ "rem") ]
+        [ div [ class "top", height ] []
+        , div [ class "base", height ] []
+        , div [ class "bottom", height ] []
         ]
+
+
+
+--
+
+
+min_ : String -> Attribute msg
+min_ =
+    Html.Attributes.min
+
+
+max_ : String -> Attribute msg
+max_ =
+    Html.Attributes.max
