@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Skriva &amp; glass!</title>
+        <link href="https://fonts.googleapis.com/css?family=Muli:300" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Herr+Von+Muellerhoff" rel="stylesheet">
+        <link rel="stylesheet" media="all and (max-device-width: 480px)" href="iphone.css">
+        <style type="text/css">@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
+
+        html, head, body {
+            margin: 0;
+            font-variant-numeric: tabular-nums;
+            width: 100%;
+            font-family: 'Muli', sans-serif;
+        }
+
+        h1 {
+            font-size: 60px;
+        }
+
+        .buttons {
+            text-align: right;
+        }
+
+        button {
+            cursor: pointer;
+            font-size: 20px;
+            border: 0 solid #ddd;
+            border-radius: 4px;
+            background: white;
+            color: #ccc;
+        }
+
+        .line {
+            margin-bottom: 6rem;
+        }
+
+        .top, .base, .bottom {
+            height: 2rem;
+            width: 100%;
+            border-top: 1px solid #ddd;
+        }
+
+        .top, .base {
+            border-top: 1px solid #ddd;
+        }
+
+        .base {
+            border-bottom: 1px solid black;
+        }
+
+        .bottom {
+            border-bottom: 1px solid #ddd;
+        }
+
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+           .page-break { page-break-after: always; } /* page-break-after works, as well */
+        }
+
+        </style>
+    </head>
+    <body>
+        <div id="main">
+        </div>
+    </body>
+
+    <script src="skriva.js" charset="utf-8"></script>
+    <noscript>
+    </noscript>
+
+    <script>
+        var app = Elm.Skriva.init({node: document.getElementById('main')});
+    </script>
+
+</html>
