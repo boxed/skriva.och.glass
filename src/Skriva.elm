@@ -1,8 +1,8 @@
 module Skriva exposing (..)
 
 import Browser
-import Html exposing (Attribute, Html, div, h1, input, text)
-import Html.Attributes exposing (class, style, type_, value)
+import Html exposing (Attribute, Html, div, h1, img, input, text)
+import Html.Attributes exposing (class, src, style, type_, value)
 import Html.Events exposing (onInput)
 
 
@@ -72,7 +72,15 @@ viewLine model _ =
         height =
             style "height" (String.fromFloat (toFloat model.size / 10) ++ "rem")
     in
-    div [ class "line", style "margin-bottom" (String.fromFloat (toFloat model.size * 3 / 10) ++ "rem") ]
+    div
+        [ class "line"
+        , style "margin-bottom" (String.fromFloat (toFloat model.size / 6) ++ "rem")
+
+        --, style "background-image" "url(a.svg)"
+        , style "background-size" (String.fromFloat (toFloat model.size * 0.9 / 10) ++ "rem")
+        , style "background-position-y" ("calc(" ++ (String.fromFloat (toFloat model.size * 0.945 / 10) ++ "rem") ++ " + 2px)")
+        , style "background-repeat" "no-repeat"
+        ]
         [ div [ class "top", height ] []
         , div [ class "base", height ] []
         , div [ class "bottom", height ] []

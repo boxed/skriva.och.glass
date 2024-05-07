@@ -2719,7 +2719,7 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		o: func(record.o),
+		p: func(record.p),
 		K: record.K,
 		H: record.H
 	}
@@ -2989,7 +2989,7 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.o;
+		var message = !tag ? value : tag < 3 ? value.a : value.p;
 		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.K;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
@@ -5157,7 +5157,7 @@ var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Skriva$init = function (_v0) {
 	return _Utils_Tuple2(
-		{u: 20},
+		{m: 20},
 		$elm$core$Platform$Cmd$none);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5170,7 +5170,7 @@ var $author$project$Skriva$update = F2(
 			return _Utils_Tuple2(
 				_Utils_update(
 					model,
-					{u: s}),
+					{m: s}),
 				$elm$core$Platform$Cmd$none);
 		} else {
 			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -5239,7 +5239,7 @@ var $author$project$Skriva$viewLine = F2(
 		var height = A2(
 			$elm$html$Html$Attributes$style,
 			'height',
-			$elm$core$String$fromFloat(model.u / 10) + 'rem');
+			$elm$core$String$fromFloat(model.m / 10) + 'rem');
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -5248,7 +5248,16 @@ var $author$project$Skriva$viewLine = F2(
 					A2(
 					$elm$html$Html$Attributes$style,
 					'margin-bottom',
-					$elm$core$String$fromFloat((model.u * 3) / 10) + 'rem')
+					$elm$core$String$fromFloat(model.m / 6) + 'rem'),
+					A2(
+					$elm$html$Html$Attributes$style,
+					'background-size',
+					$elm$core$String$fromFloat((model.m * 0.9) / 10) + 'rem'),
+					A2(
+					$elm$html$Html$Attributes$style,
+					'background-position-y',
+					'calc(' + (($elm$core$String$fromFloat((model.m * 0.945) / 10) + 'rem') + ' + 2px)')),
+					A2($elm$html$Html$Attributes$style, 'background-repeat', 'no-repeat')
 				]),
 			_List_fromArray(
 				[
@@ -5316,7 +5325,7 @@ var $author$project$Skriva$view = function (model) {
 										$author$project$Skriva$min_('5'),
 										$author$project$Skriva$max_('20'),
 										$elm$html$Html$Attributes$value(
-										$elm$core$String$fromInt(model.u)),
+										$elm$core$String$fromInt(model.m)),
 										$elm$html$Html$Events$onInput(
 										function (x) {
 											return $elm$core$String$toInt(x);
@@ -5325,7 +5334,7 @@ var $author$project$Skriva$view = function (model) {
 									]),
 								_List_Nil),
 								$elm$html$Html$text(
-								$elm$core$String$fromInt(model.u))
+								$elm$core$String$fromInt(model.m))
 							]))
 					])),
 				A2(
