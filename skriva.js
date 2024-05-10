@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.J.A === region.O.A)
+	if (region.M.D === region.R.D)
 	{
-		return 'on line ' + region.J.A;
+		return 'on line ' + region.M.D;
 	}
-	return 'on lines ' + region.J.A + ' through ' + region.O.A;
+	return 'on lines ' + region.M.D + ' through ' + region.R.D;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.au,
-		impl.aC,
-		impl.aA,
+		impl.ax,
+		impl.aF,
+		impl.aD,
 		function() { return function() {} }
 	);
 });
@@ -2720,8 +2720,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		p: func(record.p),
-		K: record.K,
-		H: record.H
+		N: record.N,
+		K: record.K
 	}
 });
 
@@ -2990,10 +2990,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.p;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.K;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.N;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.H) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.K) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.au,
-		impl.aC,
-		impl.aA,
+		impl.ax,
+		impl.aF,
+		impl.aD,
 		function(sendToApp, initialModel) {
-			var view = impl.aD;
+			var view = impl.aG;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.au,
-		impl.aC,
-		impl.aA,
+		impl.ax,
+		impl.aF,
+		impl.aD,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.I && impl.I(sendToApp)
-			var view = impl.aD;
+			var divertHrefToApp = impl.L && impl.L(sendToApp)
+			var view = impl.aG;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3992,12 +3992,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.an);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aq);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.aB) && (_VirtualDom_doc.title = title = doc.aB);
+				(title !== doc.aE) && (_VirtualDom_doc.title = title = doc.aE);
 			});
 		}
 	);
@@ -4053,12 +4053,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.aw;
-	var onUrlRequest = impl.ax;
+	var onUrlChange = impl.az;
+	var onUrlRequest = impl.aA;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		I: function(sendToApp)
+		L: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.aa === next.aa
-							&& curr.S === next.S
-							&& curr.Y.a === next.Y.a
+							&& curr.ad === next.ad
+							&& curr.V === next.V
+							&& curr.aa.a === next.aa.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		au: function(flags)
+		ax: function(flags)
 		{
-			return A3(impl.au, flags, _Browser_getUrl(), key);
+			return A3(impl.ax, flags, _Browser_getUrl(), key);
 		},
-		aD: impl.aD,
-		aC: impl.aC,
-		aA: impl.aA
+		aG: impl.aG,
+		aF: impl.aF,
+		aD: impl.aD
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { as: 'hidden', ao: 'visibilitychange' }
+		? { av: 'hidden', ar: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { as: 'mozHidden', ao: 'mozvisibilitychange' }
+		? { av: 'mozHidden', ar: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { as: 'msHidden', ao: 'msvisibilitychange' }
+		? { av: 'msHidden', ar: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { as: 'webkitHidden', ao: 'webkitvisibilitychange' }
-		: { as: 'hidden', ao: 'visibilitychange' };
+		? { av: 'webkitHidden', ar: 'webkitvisibilitychange' }
+		: { av: 'hidden', ar: 'visibilitychange' };
 }
 
 
@@ -4247,12 +4247,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		ae: _Browser_getScene(),
-		ah: {
-			aj: _Browser_window.pageXOffset,
-			ak: _Browser_window.pageYOffset,
-			ai: _Browser_doc.documentElement.clientWidth,
-			R: _Browser_doc.documentElement.clientHeight
+		ah: _Browser_getScene(),
+		ak: {
+			am: _Browser_window.pageXOffset,
+			an: _Browser_window.pageYOffset,
+			al: _Browser_doc.documentElement.clientWidth,
+			U: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4262,8 +4262,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		ai: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		R: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		al: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		U: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4286,15 +4286,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			ae: {
-				ai: node.scrollWidth,
-				R: node.scrollHeight
-			},
 			ah: {
-				aj: node.scrollLeft,
-				ak: node.scrollTop,
-				ai: node.clientWidth,
-				R: node.clientHeight
+				al: node.scrollWidth,
+				U: node.scrollHeight
+			},
+			ak: {
+				am: node.scrollLeft,
+				an: node.scrollTop,
+				al: node.clientWidth,
+				U: node.clientHeight
 			}
 		};
 	});
@@ -4324,18 +4324,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			ae: _Browser_getScene(),
-			ah: {
-				aj: x,
-				ak: y,
-				ai: _Browser_doc.documentElement.clientWidth,
-				R: _Browser_doc.documentElement.clientHeight
+			ah: _Browser_getScene(),
+			ak: {
+				am: x,
+				an: y,
+				al: _Browser_doc.documentElement.clientWidth,
+				U: _Browser_doc.documentElement.clientHeight
 			},
-			aq: {
-				aj: x + rect.left,
-				ak: y + rect.top,
-				ai: rect.width,
-				R: rect.height
+			at: {
+				am: x + rect.left,
+				an: y + rect.top,
+				al: rect.width,
+				U: rect.height
 			}
 		};
 	});
@@ -4874,7 +4874,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {Q: fragment, S: host, W: path, Y: port_, aa: protocol, ab: query};
+		return {T: fragment, V: host, Z: path, aa: port_, ad: protocol, ae: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5157,26 +5157,62 @@ var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Skriva$init = function (_v0) {
 	return _Utils_Tuple2(
-		{m: 20},
+		{x: true, y: true, z: true, l: 20},
 		$elm$core$Platform$Cmd$none);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $elm$core$Basics$not = _Basics_not;
 var $author$project$Skriva$update = F2(
 	function (msg, model) {
-		var size = msg;
-		if (!size.$) {
-			var s = size.a;
-			return _Utils_Tuple2(
-				_Utils_update(
-					model,
-					{m: s}),
-				$elm$core$Platform$Cmd$none);
-		} else {
-			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+		switch (msg.$) {
+			case 0:
+				var size = msg.a;
+				if (!size.$) {
+					var s = size.a;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{l: s}),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				}
+			case 1:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{x: !model.x}),
+					$elm$core$Platform$Cmd$none);
+			case 2:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{y: !model.y}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{z: !model.z}),
+					$elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Skriva$SetSize = $elm$core$Basics$identity;
+var $author$project$Skriva$SetSize = function (a) {
+	return {$: 0, a: a};
+};
+var $author$project$Skriva$ToggleExtraLineDistance = {$: 1};
+var $author$project$Skriva$ToggleSecondaryLine = {$: 2};
+var $author$project$Skriva$ToggleTertiaryLines = {$: 3};
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $elm$html$Html$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$bool(bool));
+	});
+var $elm$html$Html$Attributes$checked = $elm$html$Html$Attributes$boolProperty('checked');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5186,9 +5222,35 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $elm$core$Tuple$second = function (_v0) {
+	var y = _v0.b;
+	return y;
+};
+var $elm$html$Html$Attributes$classList = function (classes) {
+	return $elm$html$Html$Attributes$class(
+		A2(
+			$elm$core$String$join,
+			' ',
+			A2(
+				$elm$core$List$map,
+				$elm$core$Tuple$first,
+				A2($elm$core$List$filter, $elm$core$Tuple$second, classes))));
+};
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$input = _VirtualDom_node('input');
+var $elm$html$Html$label = _VirtualDom_node('label');
 var $elm$html$Html$Attributes$max = $elm$html$Html$Attributes$stringProperty('max');
 var $author$project$Skriva$max_ = $elm$html$Html$Attributes$max;
 var $elm$html$Html$Attributes$min = $elm$html$Html$Attributes$stringProperty('min');
@@ -5239,7 +5301,7 @@ var $author$project$Skriva$viewLine = F2(
 		var height = A2(
 			$elm$html$Html$Attributes$style,
 			'height',
-			$elm$core$String$fromFloat(model.m / 10) + 'rem');
+			$elm$core$String$fromFloat(model.l / 10) + 'rem');
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -5248,15 +5310,15 @@ var $author$project$Skriva$viewLine = F2(
 					A2(
 					$elm$html$Html$Attributes$style,
 					'margin-bottom',
-					$elm$core$String$fromFloat(model.m / 6) + 'rem'),
+					model.x ? ($elm$core$String$fromFloat(model.l / 6) + 'rem') : ($elm$core$String$fromFloat(model.l / 20) + 'rem')),
 					A2(
 					$elm$html$Html$Attributes$style,
 					'background-size',
-					$elm$core$String$fromFloat((model.m * 0.9) / 10) + 'rem'),
+					$elm$core$String$fromFloat((model.l * 0.9) / 10) + 'rem'),
 					A2(
 					$elm$html$Html$Attributes$style,
 					'background-position-y',
-					'calc(' + (($elm$core$String$fromFloat((model.m * 0.945) / 10) + 'rem') + ' + 2px)')),
+					'calc(' + (($elm$core$String$fromFloat((model.l * 0.945) / 10) + 'rem') + ' + 2px)')),
 					A2($elm$html$Html$Attributes$style, 'background-repeat', 'no-repeat')
 				]),
 			_List_fromArray(
@@ -5325,21 +5387,108 @@ var $author$project$Skriva$view = function (model) {
 										$author$project$Skriva$min_('5'),
 										$author$project$Skriva$max_('20'),
 										$elm$html$Html$Attributes$value(
-										$elm$core$String$fromInt(model.m)),
+										$elm$core$String$fromInt(model.l)),
 										$elm$html$Html$Events$onInput(
 										function (x) {
-											return $elm$core$String$toInt(x);
+											return $author$project$Skriva$SetSize(
+												$elm$core$String$toInt(x));
 										}),
 										$elm$html$Html$Attributes$class('slider')
 									]),
 								_List_Nil),
 								$elm$html$Html$text(
-								$elm$core$String$fromInt(model.m))
+								$elm$core$String$fromInt(model.l))
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$label,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$input,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$type_('checkbox'),
+												$elm$html$Html$Attributes$class('checkbox'),
+												$elm$html$Html$Attributes$checked(model.x),
+												$elm$html$Html$Events$onInput(
+												function (_v0) {
+													return $author$project$Skriva$ToggleExtraLineDistance;
+												})
+											]),
+										_List_Nil),
+										$elm$html$Html$text('Extra radavstånd')
+									]))
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$label,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$input,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$type_('checkbox'),
+												$elm$html$Html$Attributes$class('checkbox'),
+												$elm$html$Html$Attributes$checked(model.y),
+												$elm$html$Html$Events$onInput(
+												function (_v1) {
+													return $author$project$Skriva$ToggleSecondaryLine;
+												})
+											]),
+										_List_Nil),
+										$elm$html$Html$text('Stöd-linje 2')
+									]))
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$label,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										$elm$html$Html$input,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$type_('checkbox'),
+												$elm$html$Html$Attributes$class('checkbox'),
+												$elm$html$Html$Attributes$checked(model.z),
+												$elm$html$Html$Events$onInput(
+												function (_v2) {
+													return $author$project$Skriva$ToggleTertiaryLines;
+												})
+											]),
+										_List_Nil),
+										$elm$html$Html$text('Stöd-linjer 3 och 4')
+									]))
 							]))
 					])),
 				A2(
 				$elm$html$Html$div,
-				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$classList(
+						_List_fromArray(
+							[
+								_Utils_Tuple2('with-secondary-line', model.y),
+								_Utils_Tuple2('with-tertiary-lines', model.z)
+							]))
+					]),
 				A2(
 					$elm$core$List$map,
 					$author$project$Skriva$viewLine(model),
@@ -5348,12 +5497,12 @@ var $author$project$Skriva$view = function (model) {
 };
 var $author$project$Skriva$main = $elm$browser$Browser$element(
 	{
-		au: $author$project$Skriva$init,
-		aA: function (_v0) {
+		ax: $author$project$Skriva$init,
+		aD: function (_v0) {
 			return $elm$core$Platform$Sub$none;
 		},
-		aC: $author$project$Skriva$update,
-		aD: $author$project$Skriva$view
+		aF: $author$project$Skriva$update,
+		aG: $author$project$Skriva$view
 	});
 _Platform_export({'Skriva':{'init':$author$project$Skriva$main(
 	$elm$json$Json$Decode$succeed(0))(0)}});}(this));

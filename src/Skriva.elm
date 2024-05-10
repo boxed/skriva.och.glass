@@ -1,8 +1,8 @@
 module Skriva exposing (..)
 
 import Browser
-import Html exposing (Attribute, Html, div, h1, img, input, text)
-import Html.Attributes exposing (class, src, style, type_, value)
+import Html exposing (Attribute, Html, div, h1, img, input, label, text)
+import Html.Attributes exposing (checked, class, classList, src, style, type_, value)
 import Html.Events exposing (onInput)
 
 
@@ -17,7 +17,11 @@ main =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { size = 20 }
+    ( { size = 20
+      , extraLineDistance = True
+      , showSecondaryLine = True
+      , showTertiaryLines = True
+      }
     , Cmd.none
     )
 
@@ -28,6 +32,9 @@ init _ =
 
 type alias Model =
     { size : Int
+    , extraLineDistance : Bool
+    , showSecondaryLine : Bool
+    , showTertiaryLines : Bool
     }
 
 
@@ -37,6 +44,9 @@ type alias Model =
 
 type Msg
     = SetSize (Maybe Int)
+    | ToggleExtraLineDistance
+    | ToggleSecondaryLine
+    | ToggleTertiaryLines
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -50,6 +60,15 @@ update msg model =
                 Nothing ->
                     ( model, Cmd.none )
 
+        ToggleExtraLineDistance ->
+            ( { model | extraLineDistance = not model.extraLineDistance }, Cmd.none )
+
+        ToggleSecondaryLine ->
+            ( { model | showSecondaryLine = not model.showSecondaryLine }, Cmd.none )
+
+        ToggleTertiaryLines ->
+            ( { model | showTertiaryLines = not model.showTertiaryLines }, Cmd.none )
+
 
 
 -- View
@@ -59,10 +78,65 @@ view : Model -> Html Msg
 view model =
     div []
         [ h1 [ class "no-print" ] [ text "Skriva" ]
-        , div [ class "no-print" ]
-            [ div [] [ input [ style "width" "400px", type_ "range", min_ "5", max_ "20", value (String.fromInt model.size), onInput (\x -> SetSize (String.toInt x)), class "slider" ] [], text (String.fromInt model.size) ]
+        , div
+            [ class "no-print" ]
+            [ div []
+                [ input
+                    [ style "width" "400px"
+                    , type_ "range"
+                    , min_ "5"
+                    , max_ "20"
+                    , value (String.fromInt model.size)
+                    , onInput (\x -> SetSize (String.toInt x))
+                    , class "slider"
+                    ]
+                    []
+                , text (String.fromInt model.size)
+                ]
+            , div []
+                [ label []
+                    [ input
+                        [ type_ "checkbox"
+                        , class "checkbox"
+                        , checked model.extraLineDistance
+                        , onInput (\_ -> ToggleExtraLineDistance)
+                        ]
+                        []
+                    , text "Extra radavstånd"
+                    ]
+                ]
+            , div []
+                [ label []
+                    [ input
+                        [ type_ "checkbox"
+                        , class "checkbox"
+                        , checked model.showSecondaryLine
+                        , onInput (\_ -> ToggleSecondaryLine)
+                        ]
+                        []
+                    , text "Stöd-linje 2"
+                    ]
+                ]
+            , div []
+                [ label []
+                    [ input
+                        [ type_ "checkbox"
+                        , class "checkbox"
+                        , checked model.showTertiaryLines
+                        , onInput (\_ -> ToggleTertiaryLines)
+                        ]
+                        []
+                    , text "Stöd-linjer 3 och 4"
+                    ]
+                ]
             ]
-        , div [] (List.map (viewLine model) (List.range 0 100))
+        , div
+            [ classList
+                [ ( "with-secondary-line", model.showSecondaryLine )
+                , ( "with-tertiary-lines", model.showTertiaryLines )
+                ]
+            ]
+            (List.map (viewLine model) (List.range 0 100))
         ]
 
 
@@ -74,7 +148,13 @@ viewLine model _ =
     in
     div
         [ class "line"
-        , style "margin-bottom" (String.fromFloat (toFloat model.size / 6) ++ "rem")
+        , style "margin-bottom"
+            (if model.extraLineDistance then
+                String.fromFloat (toFloat model.size / 6) ++ "rem"
+
+             else
+                String.fromFloat (toFloat model.size / 20) ++ "rem"
+            )
 
         --, style "background-image" "url(a.svg)"
         , style "background-size" (String.fromFloat (toFloat model.size * 0.9 / 10) ++ "rem")
